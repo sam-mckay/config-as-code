@@ -4,8 +4,15 @@ on: [pull_request]
       
 jobs:
   docker:
+    env:
+      BRANCH_NAME: ${GITHUB_REF##*/}
+
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Validate Branch
+        run: echo ${{ env.BRANCH_NAME }}
+
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -24,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
-          tags: runningmattress/jenkins-jcasc:${GITHUB_REF##*/}
+          tags: runningmattress/jenkins-jcasc:${{ env.BRANCH_NAME }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

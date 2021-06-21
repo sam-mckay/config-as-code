@@ -11,8 +11,9 @@ jobs:
     steps:
       - 
         name: Validate Branch
-        run: echo ${{ env.BRANCH_NAME }}
-        run: echo ${{ github.head_ref }}
+        run: |
+          echo ${{ env.BRANCH_NAME }}
+          echo ${{ github.head_ref }}
 
       -
         name: Set up QEMU

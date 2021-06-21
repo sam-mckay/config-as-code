@@ -5,13 +5,14 @@ on: [pull_request]
 jobs:
   docker:
     env:
-      BRANCH_NAME: ${GITHUB_REF##*/}
+      BRANCH_NAME: ${{ github.head_ref }}
 
     runs-on: ubuntu-latest
     steps:
       - 
         name: Validate Branch
         run: echo ${{ env.BRANCH_NAME }}
+        run: echo ${{ github.head_ref }}
 
       -
         name: Set up QEMU

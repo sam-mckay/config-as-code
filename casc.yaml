@@ -16,7 +16,7 @@ jenkins:
     all:
       name: "all"
   projectNamingStrategy: "standard"
-  quietPeriod: 10
+  quietPeriod: 2
   remotingSecurity:
     enabled: true
   scmCheckoutRetryCount: 0

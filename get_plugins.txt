@@ -1,6 +1,6 @@
 curl -s localhost:8080/pluginManager/api/json?depth=1  | jq -r '.plugins[] | "\(.shortName):\(.version)"' | sort
 
-
+#Run below in http://localhost:8080/script
 List<String> jenkinsPlugins = new ArrayList<String>(Jenkins.instance.pluginManager.plugins);
 jenkinsPlugins.sort { it.shortName }
               .each { plugin ->

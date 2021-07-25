@@ -4,6 +4,4 @@ ENV CASC_JENKINS_CONFIG /usr/share/jenkins/casc.yaml
 COPY plugins.txt /usr/share/jenkins/ref/
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 COPY casc.yaml /usr/share/jenkins/casc.yaml
-COPY jobs /usr/share/jenkins/jobs
-COPY jenkins-cli.jar /usr/share/jenkins/jenkins-cli.jar
-
+COPY jobs /usr/share/jenkins/ref/jobs

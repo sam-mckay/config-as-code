@@ -163,17 +163,4 @@ credentials:
           id: "github-login"
           password: "${GITHUB_TOKEN}"
           scope: GLOBAL
-          username: "sam-mckay"
-jobs: 
-  - script: >
-      multibranchPipelineJob('cpp-microservices'){
-        branchSources {
-          github {
-            id('cpp-micro')
-            repoOwner('sam-mckay')
-            repository('cpp-microservices')
-            checkoutCredentialsId('github-login')
-            scanCredentialsId('github-login') 
-          }
-        }
-      }
+          username: "sam-mckay"      

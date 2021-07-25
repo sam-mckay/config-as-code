@@ -7,11 +7,26 @@ jenkins:
       allowAnonymousRead: false  
   disableRememberMe: false
   labelAtoms:
+  - name: "Test"
   - name: "master"
+  - name: "win"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
-  numExecutors: 1
+  nodes:
+  - permanent:
+      labelString: "win"
+      launcher:
+        jnlp:
+          webSocket: true
+          workDirSettings:
+            disabled: false
+            failIfWorkDirIsMissing: false
+            internalDir: "remoting"
+      name: "Test"
+      remoteFS: "D:\\Jenkins"
+      retentionStrategy: "always"
+  numExecutors: 0
   primaryView:
     all:
       name: "all"
@@ -29,12 +44,14 @@ jenkins:
         name: "Sam McKay"
         password: ${JENKINS_ADMIN_PASSWORD}
         properties:
+        - "theme"
+        - "timezone"
         - "apiToken"
         - favoriting:
             autofavoriteEnabled: true
         - mailer:
             emailAddress: "sammckay@btinternet.com"
-        - "favorite"        
+        - "favorite"
         - preferredProvider:
             providerId: "default"
   slaveAgentPort: 50000
@@ -51,6 +68,8 @@ security:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: true
   sSHD:
     port: -1
 unclassified:
@@ -100,6 +119,8 @@ unclassified:
     hideCredentials: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
+  githubPullRequests:
+    actualiseOnFactory: false
   junitTestResultStorage:
     storage: "file"
   location:
@@ -117,10 +138,14 @@ unclassified:
     elements:
     - cssUrl:
         url: "https://jenkins-contrib-themes.github.io/jenkins-neo-theme/dist/neo-light.css"
+  themeManager:
+    disableUserThemes: false
   timestamper:
     allPipelines: false
     elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
     systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+  whitelist:
+    enabled: false
 tool:
   git:
     installations:
@@ -138,17 +163,4 @@ credentials:
           id: "github-login"
           password: "${GITHUB_TOKEN}"
           scope: GLOBAL
-          username: "sam-mckay"
-jobs: 
-  - script: >
-      multibranchPipelineJob('cpp-microservices'){
-        branchSources {
-          github {
-            id('cpp-micro')
-            repoOwner('sam-mckay')
-            repository('cpp-microservices')
-            checkoutCredentialsId('github-login')
-            scanCredentialsId('github-login') 
-          }
-        }
-      }
+          username: "sam-mckay"      

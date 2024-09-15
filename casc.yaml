@@ -1,23 +1,47 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description: "Github login for sam-mckay"
+          id: "github-login"
+          password: ${GITHUB_TOKEN}
+          scope: GLOBAL
+          username: "sam-mckay"
 jenkins:
   agentProtocols:
   - "JNLP4-connect"
   - "Ping"
   authorizationStrategy:
     loggedInUsersCanDoAnything:
-      allowAnonymousRead: false  
+      allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
   disableRememberMe: false
   labelAtoms:
   - name: "Test"
-  - name: "master"
+  - name: "built-in"
   - name: "win"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
+  nodeMonitors:
+  - "architecture"
+  - "clock"
+  - diskSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "swapSpace"
+  - tmpSpace:
+      freeSpaceThreshold: "1GiB"
+      freeSpaceWarningThreshold: "2GiB"
+  - "responseTime"
   nodes:
   - permanent:
       labelString: "win"
       launcher:
-        jnlp:
+        inbound:
           webSocket: true
           workDirSettings:
             disabled: false
@@ -44,6 +68,9 @@ jenkins:
         name: "Sam McKay"
         password: ${JENKINS_ADMIN_PASSWORD}
         properties:
+        - "consoleUrlProvider"
+        - "myView"
+        - "experimentalFlags"
         - "theme"
         - "timezone"
         - "apiToken"
@@ -63,11 +90,27 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+appearance:
+  prism:
+    theme: PRISM
+  themeManager:
+    disableUserThemes: false
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  cps:
+    hideSandbox: false
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   globalJobDslSecurityConfiguration:
     useScriptSecurity: true
   sSHD:
@@ -83,6 +126,15 @@ unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
     - "jobBuildDiscarder"
+  buildStatusConfig:
+    dbVersion: 2
+    enableGithub: true
+    enableHttp: false
+    enableInfluxDb: false
+    enableStatsd: false
+    httpVerifySSL: false
+    ignoreSendingTestCoverageToInflux: false
+    ignoreSendingTestResultsToInflux: true
   buildStepOperation:
     enabled: false
   email-ext:
@@ -99,11 +151,16 @@ unclassified:
     defaultTriggerIds:
     - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
     mailAccount:
-      smtpPassword: "{AQAAABAAAAAQSdRzZJv0XkLU6EeX4pHAjpfcgA8q3WjknLI9PFw3gT4=}"
+      smtpPassword: "{AQAAABAAAABAniC6/09FjLUjMce2WWPcTRfdxL6x3GNcc+apE1gFSgxV6oQwktuyCzaDltdtm7TQnHeF+POoq/LuH1yup9NxNjiOtHTBMRebNmcaojeqrVw=}"
     maxAttachmentSize: -1
     maxAttachmentSizeMb: -1
     precedenceBulk: false
     watchingEnabled: false
+  enrichedSummaryConfig:
+    enrichedSummaryEnabled: false
+    httpClientDelayBetweenRetriesInSeconds: 1
+    httpClientMaxRetries: 3
+    httpClientTimeoutInSeconds: 1
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
@@ -111,16 +168,19 @@ unclassified:
     apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
     hookUrl: "http://localhost:8080/github-webhook/"
-  gitSCM:
-    addGitTagAction: false
-    allowSecondFetch: false
-    createAccountBasedOnEmail: false
-    disableGitToolChooser: false
-    hideCredentials: false
-    showEntireCommitSummaryInChanges: false
-    useExistingAccountWithSameEmail: false
   githubPullRequests:
     actualiseOnFactory: false
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
+    overwriteable: false
+  injectionConfig:
+    allowUntrusted: false
+    checkForBuildAgentErrors: false
+    enabled: false
+    enforceUrl: false
+    injectCcudExtension: false
+    injectMavenExtension: false
   junitTestResultStorage:
     storage: "file"
   location:
@@ -134,12 +194,14 @@ unclassified:
     localRepository: "default"
   pollSCM:
     pollingThreadCount: 10
-  simple-theme-plugin:
-    elements:
-    - cssUrl:
-        url: "https://jenkins-contrib-themes.github.io/jenkins-neo-theme/dist/neo-light.css"
-  themeManager:
-    disableUserThemes: false
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
   timestamper:
     allPipelines: false
     elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
@@ -154,13 +216,3 @@ tool:
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
-credentials:
-  system:
-    domainCredentials:
-    - credentials:
-      - usernamePassword:
-          description: "Github login for sam-mckay"
-          id: "github-login"
-          password: "${GITHUB_TOKEN}"
-          scope: GLOBAL
-          username: "sam-mckay"      

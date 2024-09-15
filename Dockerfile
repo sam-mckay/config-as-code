@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:2.476-jdk17
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 ENV CASC_JENKINS_CONFIG /usr/share/jenkins/casc.yaml
 COPY plugins.txt /usr/share/jenkins/ref/
